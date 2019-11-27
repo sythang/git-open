@@ -27,6 +27,7 @@ p,print!      just print the url
 SUBDIRECTORY_OK='Yes' . "$(git --exec-path)/git-sh-setup"
 
 # Defaults
+is_pipeline=0
 is_commit=0
 is_issue=0
 protocol="https"
@@ -39,6 +40,7 @@ while test $# != 0; do
   --issue) is_issue=1;;
   --suffix=*) suffix_flag="$1";;
   --print) print_only=1;;
+  --pipeline) is_pipeline=1;;
   --) shift; break ;;
   esac
   shift
@@ -240,6 +242,12 @@ openurl="$protocol://$domain/$urlpath"
 if (( is_commit )); then
     sha=$(git rev-parse HEAD)
     openurl="$openurl/commit/$sha"
+elif [[ $remote_ref != "master" ]]; then
+    # simplify URL for master
+    openurl="$openurl$providerBranchRef"
+fi
+if (( is_pipeline )); then
+    openurl="$openurl/pipelines"
 elif [[ $remote_ref != "master" ]]; then
     # simplify URL for master
     openurl="$openurl$providerBranchRef"
