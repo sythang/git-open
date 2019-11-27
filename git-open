@@ -20,6 +20,7 @@ c,commit!     open current commit
 i,issue!      open issues page
 s,suffix=     append this suffix
 p,print!      just print the url
+pl,pipeline!      open pipelines
 "
 
 # https://github.com/koalaman/shellcheck/wiki/SC1090
